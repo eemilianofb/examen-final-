@@ -1,0 +1,71 @@
+//parcial examen final pt3 //busqueda secuencia y binaria
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+// Busq secuencial
+int busquedaSecuencial(int arr[], int n, int objetivo) {
+    for (int i = 0; i < n; i++) {
+        if (arr[i] == objetivo) {
+            return i;  
+        }
+    }
+    return -1;  
+}
+
+// Busq binaria
+int busquedaBinaria(int arr[], int bajo, int alto, int objetivo) {
+    while (bajo <= alto) {
+        int medio = bajo + (alto - bajo) / 2;
+
+        if (arr[medio] == objetivo) {
+            return medio; 
+        }
+
+        if (arr[medio] < objetivo) {
+            bajo = medio + 1;
+        } else {
+            alto = medio - 1;
+        }
+    }
+    return -1;  
+}
+
+//time
+
+int main() {
+    srand(time(NULL));
+
+    int n = 50000;
+    int arr[n];
+
+    for (int i = 0; i < n; i++) {
+        arr[i] = rand() % 1000;
+    }
+
+// Secuencial
+    printf("Busqueda Secuencial:\n");
+    clock_t inicio = clock();
+    int objetivo = arr[rand() % n];
+    for (int i = 0; i < 100; i++) {
+        busquedaSecuencial(arr, n, objetivo);
+    }
+    clock_t fin = clock();
+    double tiempo_cpu = ((double)(fin - inicio)) / CLOCKS_PER_SEC * 1000;
+    printf("Tiempo total: %f ms\n", tiempo_cpu);
+
+// Binaria
+    printf("\nBusqueda Binaria:\n");
+    objetivo = arr[rand() % n];
+
+    inicio = clock();
+    for (int i = 0; i < 100; i++) {
+        busquedaBinaria(arr, 0, n - 1, objetivo);
+    }
+    fin = clock();
+    tiempo_cpu = ((double)(fin - inicio)) / CLOCKS_PER_SEC * 1000;
+    printf("Tiempo total: %f ms\n", tiempo_cpu);
+
+    return 0;
+}
